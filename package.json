@@ -1,0 +1,9 @@
+{
+  "name": "roundation",
+  "version": "0.0.1",
+  "description": "Build React application with autonomous components",
+  "main": "dist/index.js",
+  "repository": "https://github.com/zheeeng/Roundation.git",
+  "author": "Zheeeng <hi@zheeeng.me>",
+  "license": "MIT"
+}
