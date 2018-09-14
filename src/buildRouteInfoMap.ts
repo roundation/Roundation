@@ -3,7 +3,7 @@ import {
   asyncComponentResolve,
   syncComponentResolve,
 } from './utils/component-resolvers'
-import * as Roundation from '~src/lib/roundation/types'
+import * as Roundation from './types'
 
 const buildRouteInfoMap = () => {
   // context '~src/pages' must be static computable
