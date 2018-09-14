@@ -7,7 +7,17 @@
   "author": "Zheeeng <hi@zheeeng.me>",
   "license": "MIT",
   "devDependencies": {
+    "@types/reach__router": "^1.0.1",
+    "@types/react-loadable": "^5.4.1",
+    "@types/webpack-env": "^1.13.6",
     "tslint": "^5.11.0",
     "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "@reach/router": "^1.1.1",
+    "react-loadable": "^5.5.0"
+  },
+  "peerDependencies": {
+    "react": "^16.5.1"
   }
 }
