@@ -8,6 +8,7 @@
   "author": "Zheeeng <hi@zheeeng.me>",
   "license": "MIT",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "rm -rf dist && tsc"
   },
   "devDependencies": {
