@@ -1,7 +1,7 @@
 {
   "name": "roundation",
   "version": "0.0.1",
-  "description": "Build React application with autonomous components",
+  "description": "Build scale React application with autonomous and routing-aware components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/zheeeng/Roundation.git",
