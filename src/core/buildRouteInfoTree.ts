@@ -1,7 +1,7 @@
 import arrayEqual from '../utils/array-equal'
 import getValues from '../utils/get-values'
 
-import * as Roundation from '../types.d'
+import * as Roundation from '../types'
 
 const buildRouteInfoTree = (routeInfoMap: Roundation.RouteInfoMap) => {
   const routeInfos = getValues(routeInfoMap)

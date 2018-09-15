@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Router } from '@reach/router'
 import objectMap from './utils/object-map'
 import bootstrap from './bootstrap'
-import { RouteNode } from './types.d'
+import { RouteNode } from './types'
 import setupLocationWorkspace from './core/setupLocationWorkspace'
 
 export default class Roundation extends React.PureComponent {
