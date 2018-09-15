@@ -1,5 +1,6 @@
 import * as Loadable from 'react-loadable'
 import { RouteComponentProps } from '@reach/router'
+import { LocationInfo } from './core/setupLocationWorkspace'
 
 declare namespace Roundation {
   export interface Manifest {
@@ -19,34 +20,11 @@ declare namespace Roundation {
     manifest: Manifest
   }
 
-  export type ComponentType = 'layout' | 'index' | 'default' | 'slot'
-
-  export interface LayoutLocationInfo extends RouteBaseInfo {
-    type: 'layout'
-    routePath: string
-    routeFullPath: string
-    navigate: () => void
+  export type ComponentProps<T> = RouteComponentProps<T> & {
+    locationInfo: LocationInfo
   }
 
-  export interface OtherLocationInfo {
-    type: 'index' | 'default' | 'slot'
-    name: string
-  }
-
-  export type LocationInfo = LayoutLocationInfo | OtherLocationInfo
-
-  export type LocationListCommandType = Roundation.LocationInfo | '.' | '..' | '/' | '-' | '~'
-  export type LocationLocateCommandType = Roundation.LocationInfo | '..' | '/'
-  export interface LocationCommandContext {
-    list: (location?: LocationListCommandType) => LocationInfo[]
-    locate:  (location?: LocationLocateCommandType) => LocationCommandContext
-  }
-
-  export interface ComponentProps extends RouteComponentProps {
-    commands: LocationCommandContext
-  }
-
-  export type ComponentClass = React.ComponentClass<ComponentProps, any> | React.StatelessComponent<ComponentProps> & LoadableExport.LoadableComponent
+  export type ComponentClass = React.ComponentClass<ComponentProps<any>, any> | React.StatelessComponent<ComponentProps<any>> & LoadableExport.LoadableComponent
 
   export interface ComponentResolveThunkCollection {
     [key: string]: () => ComponentClass

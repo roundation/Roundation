@@ -1,6 +1,6 @@
-import buildRouteInfoTree from './buildRouteInfoTree'
-import buildRouteInfoMap from './buildRouteInfoMap'
-import buildRouteNodeTree from './buildRouteNodeTree'
+import buildRouteInfoTree from './core/buildRouteInfoTree'
+import buildRouteInfoMap from './core/buildRouteInfoMap'
+import buildRouteNodeTree from './core/buildRouteNodeTree'
 
 export default function bootstrap () {
   const routeInfoMap = buildRouteInfoMap()

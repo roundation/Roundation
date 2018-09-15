@@ -1,7 +1,7 @@
-import flatMap from './utils/flat-map'
-import findLastIndex from './utils/find-last-index'
-import objectMap from './utils/object-map'
-import * as Roundation from './types.d'
+import flatMap from '../utils/flat-map'
+import findLastIndex from '../utils/find-last-index'
+import objectMap from '../utils/object-map'
+import * as Roundation from '../types.d'
 
 export interface Node {
   children: this[],
