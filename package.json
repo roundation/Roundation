@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "description": "Build React application with autonomous components",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/zheeeng/Roundation.git",
   "author": "Zheeeng <hi@zheeeng.me>",
   "license": "MIT",
   "devDependencies": {
     "@types/reach__router": "^1.0.1",
+    "@types/react": "^16.4.14",
     "@types/react-loadable": "^5.4.1",
     "@types/webpack-env": "^1.13.6",
     "tslint": "^5.11.0",
