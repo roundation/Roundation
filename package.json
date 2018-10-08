@@ -1,10 +1,10 @@
 {
-  "name": "roundation",
+  "name": "@roundation/roundation",
   "version": "0.0.3",
   "description": "Build scale React application with autonomous and routing-aware components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/zheeeng/Roundation.git",
+  "repository": "https://github.com/roundation/Roundation.git",
   "author": "Zheeeng <hi@zheeeng.me>",
   "license": "MIT",
   "scripts": {
