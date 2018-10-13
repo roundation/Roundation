@@ -30,13 +30,12 @@ export const getRoutePath = (routePaths: string[]): string =>
     p => p[0] === concatenationSymbol ? `/${p.slice(1)}`: p,
   ).join('')
 
-
 export const buildRouteNodeTree =
   (parentNode: Roundation.RouteNode | null = null) =>
   (routeInfo: Roundation.RouteInfo): Roundation.RouteNode => {
     const lastIndexOfNonConcatenatedRoutePath = getLastIndexOfNonConcatenatedRoutePath(routeInfo.routePaths)
-    const concatenatedRoutePaths = routeInfo.routePaths.slice(lastIndexOfNonConcatenatedRoutePath)
-    const routePath = getRoutePath(concatenatedRoutePaths)
+    const toBeConcatenatedRoutePaths = routeInfo.routePaths.slice(lastIndexOfNonConcatenatedRoutePath)
+    const routePath = getRoutePath(toBeConcatenatedRoutePaths)
 
     const routeNode: Roundation.RouteNode = {
       parent: parentNode,
@@ -47,7 +46,7 @@ export const buildRouteNodeTree =
       routeFullPath: parentNode
         ? `${parentNode.routeFullPath}/${routePath}`.replace(/^\/+/, '/')
         : routePath,
-      isConcatenated: concatenatedRoutePaths[0][0] === concatenationSymbol,
+      isConcatenated: toBeConcatenatedRoutePaths.length !== 1,
       manifest: routeInfo.manifest,
       Layout: routeInfo.resolveToLayout(),
       Index: routeInfo.resolveToIndexRoute && routeInfo.resolveToIndexRoute(),
