@@ -1,6 +1,8 @@
 import flatMap from '../utils/flat-map'
 import findLastIndex from '../utils/find-last-index'
 import objectMap from '../utils/object-map'
+
+import { concatenationSymbol } from '../conventions'
 import * as Roundation from '../types'
 
 export interface Node {
@@ -17,16 +19,24 @@ export const getSiblings = <N extends Node>(node: N): N[] =>
 export const getChildren = <N extends Node>(node: N): N[] =>
   node.children.concat(flatMap(node.children, getSiblings))
 
-export const getRoutePath = (routePaths: string[]) => {
-  const lastIndexOfNonConcatenatedRoutePath = findLastIndex(routePaths, (p: string) => !/^@/.test(p))
+export const getLastIndexOfNonConcatenatedRoutePath = (routePaths: string[]): number =>
+  findLastIndex(
+    routePaths,
+    (p: string) => p[0] !== concatenationSymbol,
+  )
 
-  return routePaths.slice(lastIndexOfNonConcatenatedRoutePath).map(p => p.replace(/^@/, '/')).join('')
-}
+export const getRoutePath = (routePaths: string[]): string =>
+  routePaths.map(
+    p => p[0] === concatenationSymbol ? `/${p.slice(1)}`: p,
+  ).join('')
+
 
 export const buildRouteNodeTree =
   (parentNode: Roundation.RouteNode | null = null) =>
   (routeInfo: Roundation.RouteInfo): Roundation.RouteNode => {
-    const routePath = getRoutePath(routeInfo.routePaths)
+    const lastIndexOfNonConcatenatedRoutePath = getLastIndexOfNonConcatenatedRoutePath(routeInfo.routePaths)
+    const concatenatedRoutePaths = routeInfo.routePaths.slice(lastIndexOfNonConcatenatedRoutePath)
+    const routePath = getRoutePath(concatenatedRoutePaths)
 
     const routeNode: Roundation.RouteNode = {
       parent: parentNode,
@@ -37,6 +47,7 @@ export const buildRouteNodeTree =
       routeFullPath: parentNode
         ? `${parentNode.routeFullPath}/${routePath}`.replace(/^\/+/, '/')
         : routePath,
+      isConcatenated: concatenatedRoutePaths[0][0] === concatenationSymbol,
       manifest: routeInfo.manifest,
       Layout: routeInfo.resolveToLayout(),
       Index: routeInfo.resolveToIndexRoute && routeInfo.resolveToIndexRoute(),

@@ -75,6 +75,7 @@ export class LocationInfo implements LocationCommandContext {
 
   private __listChildrenLocationInfo (showAllType: boolean): LocationInfo[] {
     const childrenInfos = this.__contextNodeAlternative.children
+      .filter(routeNode => !routeNode.isConcatenated)
       .map(routeNode => new LocationInfo(routeNode, 'layout', this.__rootNodeAlternative))
 
     if (!showAllType) return childrenInfos

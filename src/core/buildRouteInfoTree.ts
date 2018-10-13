@@ -1,6 +1,7 @@
 import arrayEqual from '../utils/array-equal'
 import getValues from '../utils/get-values'
 
+import { concatenationSymbol } from '../conventions'
 import * as Roundation from '../types'
 
 const buildRouteInfoTree = (routeInfoMap: Roundation.RouteInfoMap) => {
@@ -16,7 +17,7 @@ const buildRouteInfoTree = (routeInfoMap: Roundation.RouteInfoMap) => {
     )
     if (!parentRoute) return
 
-    if (routeInfo.routePaths.slice(-1)[0][0] === '@') {
+    if (routeInfo.routePaths.slice(-1)[0][0] === concatenationSymbol) {
       parentRoute.siblings.push(routeInfo)
     }
 
