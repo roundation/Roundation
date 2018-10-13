@@ -18,11 +18,11 @@ export interface RouteBaseInfo {
   manifest: Manifest
 }
 
-export type ComponentProps<T> = RouteComponentProps<T> & {
+export interface ComponentProps extends RouteComponentProps {
   locationInfo: LocationInfo
 }
 
-export type ComponentClass = React.ComponentClass<ComponentProps<any>, any> | React.StatelessComponent<ComponentProps<any>> & LoadableExport.LoadableComponent
+export type ComponentClass = React.ComponentClass<ComponentProps, any> | React.StatelessComponent<ComponentProps> & LoadableExport.LoadableComponent
 
 export interface ComponentResolveThunkCollection {
   [key: string]: () => ComponentClass
