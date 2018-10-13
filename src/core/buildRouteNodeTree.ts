@@ -39,8 +39,8 @@ export const buildRouteNodeTree =
         : routePath,
       manifest: routeInfo.manifest,
       Layout: routeInfo.resolveToLayout(),
-      Index: routeInfo.resolveToIndexRoute ? routeInfo.resolveToIndexRoute() : undefined,
-      Default: routeInfo.resolveToDefaultRoute ? routeInfo.resolveToDefaultRoute()  : undefined,
+      Index: routeInfo.resolveToIndexRoute && routeInfo.resolveToIndexRoute(),
+      Default: routeInfo.resolveToDefaultRoute && routeInfo.resolveToDefaultRoute(),
       children: [], // will be filled
       slots: objectMap(routeInfo.slots, componentThunk => componentThunk()),
     }
