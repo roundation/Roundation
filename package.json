@@ -1,6 +1,6 @@
 {
   "name": "@roundation/roundation",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Build scale React application with autonomous and routing-aware components",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
