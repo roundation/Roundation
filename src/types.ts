@@ -47,6 +47,7 @@ export interface RouteNode extends RouteBaseInfo {
   parent: RouteNode | null
   routePath: string
   routeFullPath: string
+  index: number,
   isConcatenated: boolean
   children: RouteNode[]
   Layout: ComponentClass

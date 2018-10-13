@@ -2,7 +2,7 @@ import flatMap from '../utils/flat-map'
 import findLastIndex from '../utils/find-last-index'
 import objectMap from '../utils/object-map'
 
-import { concatenationSymbol } from '../conventions'
+import { concatenationRegexp, indexRegexp } from '../conventions'
 import * as Roundation from '../types'
 
 export interface Node {
@@ -22,20 +22,24 @@ export const getChildren = <N extends Node>(node: N): N[] =>
 export const getLastIndexOfNonConcatenatedRoutePath = (routePaths: string[]): number =>
   findLastIndex(
     routePaths,
-    (p: string) => p[0] !== concatenationSymbol,
+    (p: string) => !concatenationRegexp.test(p),
   )
 
 export const getRoutePath = (routePaths: string[]): string =>
   routePaths.map(
-    p => p[0] === concatenationSymbol ? `/${p.slice(1)}`: p,
+    path => path.replace(concatenationRegexp, '/').replace(indexRegexp, ''),
   ).join('')
 
 export const buildRouteNodeTree =
   (parentNode: Roundation.RouteNode | null = null) =>
-  (routeInfo: Roundation.RouteInfo): Roundation.RouteNode => {
+  (routeInfo: Roundation.RouteInfo, index: number = 0): Roundation.RouteNode => {
     const lastIndexOfNonConcatenatedRoutePath = getLastIndexOfNonConcatenatedRoutePath(routeInfo.routePaths)
     const toBeConcatenatedRoutePaths = routeInfo.routePaths.slice(lastIndexOfNonConcatenatedRoutePath)
     const routePath = getRoutePath(toBeConcatenatedRoutePaths)
+    const routeIndexSearchIndex = toBeConcatenatedRoutePaths[0].search(indexRegexp)
+    const routeIndex = !~routeIndexSearchIndex
+      ? index
+      : parseFloat('0.' + toBeConcatenatedRoutePaths[0].slice(routeIndexSearchIndex + 1))
 
     const routeNode: Roundation.RouteNode = {
       parent: parentNode,
@@ -46,6 +50,7 @@ export const buildRouteNodeTree =
       routeFullPath: parentNode
         ? `${parentNode.routeFullPath}/${routePath}`.replace(/^\/+/, '/')
         : routePath,
+      index: routeIndex,
       isConcatenated: toBeConcatenatedRoutePaths.length !== 1,
       manifest: routeInfo.manifest,
       Layout: routeInfo.resolveToLayout(),

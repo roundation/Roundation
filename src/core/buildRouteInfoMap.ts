@@ -3,6 +3,8 @@ import {
   asyncComponentResolve,
   syncComponentResolve,
 } from '../utils/component-resolvers'
+
+import { indexRegexp } from '../conventions'
 import * as Roundation from '../types'
 
 const buildRouteInfoMap = () => {
@@ -27,7 +29,7 @@ const buildRouteInfoMap = () => {
       const fileName = fileNameParts.reverse().join('.')
       // default name is same as the last folder name, or 'RoundationRouterEntry' to root folder
       const [folderName] = pathChunks.length > 1 ? pathChunks.slice(-2) : ['Roundation Root']
-      const defaultName = folderName.replace(/^\^/, '')
+      const defaultName = folderName.replace(/^\^/, '').replace(indexRegexp, '')
       const defaultIcon = ''
       const defaultPermissions: string[] = []
       // root route has key '/'

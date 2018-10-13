@@ -2,6 +2,7 @@ import { navigate } from '@reach/router'
 import getKeys from '../utils/get-keys'
 import getValues from '../utils/get-values'
 import compilePath from '../utils/compile-path'
+
 import * as Roundation from '../types'
 
 export type RouteNodeTypeName = 'layout' | 'index' | 'default' | 'slot'
@@ -76,6 +77,7 @@ export class LocationInfo implements LocationCommandContext {
   private __listChildrenLocationInfo (showAllType: boolean): LocationInfo[] {
     const childrenInfos = this.__contextNodeAlternative.children
       .filter(routeNode => !routeNode.isConcatenated)
+      .sort((prev, curr) => prev.index - curr.index)
       .map(routeNode => new LocationInfo(routeNode, 'layout', this.__rootNodeAlternative))
 
     if (!showAllType) return childrenInfos
