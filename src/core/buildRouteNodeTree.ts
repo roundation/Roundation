@@ -38,7 +38,7 @@ export const buildRouteNodeTree =
     const routePath = getRoutePath(toBeConcatenatedRoutePaths)
     const routeIndexSearchIndex = toBeConcatenatedRoutePaths[0].search(indexRegexp)
     const routeIndex = !~routeIndexSearchIndex
-      ? index
+      ? index + 1
       : parseFloat('0.' + toBeConcatenatedRoutePaths[0].slice(routeIndexSearchIndex + 1))
 
     const routeNode: Roundation.RouteNode = {
