@@ -1,11 +1,15 @@
 import * as React from 'react'
-import { Router } from '@reach/router'
+import { Router, RouterProps } from '@reach/router'
 import objectMap from './utils/object-map'
 import bootstrap from './bootstrap'
 import { RouteNode } from './types'
 import setupLocationWorkspace from './core/setupLocationWorkspace'
 
-export default class Roundation extends React.PureComponent {
+export interface Props extends RouterProps {
+  wrapperAttributes: React.HTMLAttributes<HTMLDivElement>
+}
+
+export default class Roundation extends React.PureComponent<Props> {
   private routeNodeTree = bootstrap()
   private setCommandContext = setupLocationWorkspace(this.routeNodeTree)
 
@@ -37,8 +41,11 @@ export default class Roundation extends React.PureComponent {
   }
 
   render () {
+    const { wrapperAttributes, ...restProps } = this.props
+    const routerProps = {...restProps, ...wrapperAttributes  } as RouterProps
+
     return (
-      <Router>
+      <Router {...routerProps}>
         {this.renderRouteComponent(this.routeNodeTree)}
       </Router>
     )
