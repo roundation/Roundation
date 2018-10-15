@@ -6,7 +6,7 @@ import { RouteNode } from './types'
 import setupLocationWorkspace from './core/setupLocationWorkspace'
 
 export interface Props extends RouterProps {
-  wrapperAttributes: React.HTMLAttributes<HTMLDivElement>
+  wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>
 }
 
 export default class Roundation extends React.PureComponent<Props> {
