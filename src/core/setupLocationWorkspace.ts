@@ -121,7 +121,7 @@ export class LocationInfo implements LocationCommandContext {
 
   inspect (location?: LocationInspectCommandType): LocationInfo | null {
     if (!location) return this
-    if (typeof location !== 'string') return this. __inspectLocationInfo(location)
+    if (typeof location !== 'string') return this.__inspectLocationInfo(location)
 
     switch (location) {
       case '.':
