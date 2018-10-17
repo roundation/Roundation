@@ -1,7 +1,7 @@
 import { navigate } from '@reach/router'
-import getKeys from '../utils/get-keys'
 import getValues from '../utils/get-values'
 import compilePath from '../utils/compile-path'
+import protectPrivateFields from '../utils/protect-private-fields'
 
 import * as Roundation from '../types'
 
@@ -13,16 +13,6 @@ export interface LocationCommandContext {
   inspect (this: LocationInfo, location: LocationInspectCommandType): LocationInfo | null
   locate (this: LocationInfo, location: LocationLocateCommandType, replacerObj?: {}, replace?: boolean): void
   list (this: LocationInfo, location: LocationListCommandType, showAllType?: boolean): LocationInfo[] | null
-}
-
-export function protectPrivateFields (obj: Object) {
-  getKeys(obj).forEach(key => {
-    if (key[0] === '_' && key[1] === '_') Object.defineProperty(obj, key, {
-      configurable: false,
-      writable: false,
-      enumerable: false,
-    })
-  })
 }
 
 export class LocationInfo implements LocationCommandContext {
