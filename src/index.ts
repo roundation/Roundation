@@ -1,6 +1,6 @@
 import { Router, Link } from '@reach/router'
 import * as Loadable from 'react-loadable'
-import Roundation from './Roundation'
+import Roundation from './react-binding/Roundation'
 
 export {
   Router,

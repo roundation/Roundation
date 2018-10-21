@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Router, RouterProps } from '@reach/router'
-import objectMap from './utils/object-map'
-import bootstrap from './bootstrap'
-import { RouteNode } from './types'
-import setupLocationWorkspace from './core/setupLocationWorkspace'
+import objectMap from '../utils/object-map'
+import bootstrap from '../core/bootstrap'
+import { RouteNode } from '../types'
+import setupLocationWorkspace from '../core/setupLocationWorkspace'
 
 export interface Props extends RouterProps {
   wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>

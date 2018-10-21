@@ -2,7 +2,7 @@ import flatMap from '../utils/flat-map'
 import findLastIndex from '../utils/find-last-index'
 import objectMap from '../utils/object-map'
 
-import { concatenationRegexp, indexRegexp } from '../conventions'
+import { concatenationRegexp, indexRegexp } from '../misc/conventions'
 import * as Roundation from '../types'
 
 export interface Node {

@@ -4,7 +4,7 @@ import {
   syncComponentResolve,
 } from '../utils/component-resolvers'
 
-import { indexRegexp } from '../conventions'
+import { indexRegexp } from '../misc/conventions'
 import * as Roundation from '../types'
 
 const buildRouteInfoMap = () => {

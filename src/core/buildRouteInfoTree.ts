@@ -1,7 +1,7 @@
 import arrayEqual from '../utils/array-equal'
 import getValues from '../utils/get-values'
 
-import { concatenationRegexp } from '../conventions'
+import { concatenationRegexp } from '../misc/conventions'
 import * as Roundation from '../types'
 
 const buildRouteInfoTree = (routeInfoMap: Roundation.RouteInfoMap) => {
