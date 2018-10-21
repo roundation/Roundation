@@ -14,36 +14,38 @@ export default class Roundation extends React.PureComponent<Props> {
   private routeNodeTree = bootstrap()
   private setCommandContext = setupLocationWorkspace(this.routeNodeTree)
 
-  private renderRouteComponent = (props: RouteComponentProps) => (routeNode: RouteNode) => {
-    const { routePath, Layout, Index, Default, children, slots } = routeNode
+  private renderRouteComponent = (routeNode: RouteNode, props: RouteComponentProps) => {
+    const { Layout, Index, Default, children, slots } = routeNode
     const getLocationInfo = this.setCommandContext(routeNode)
     const elementSlots = objectMap(slots, Component => (
       <Component {...props} locationInfo={getLocationInfo('slot')} />
     ))
 
     return (
-      <Route key={routePath} path={routePath}>
-        {(props) => (
-          <Layout {...elementSlots} {...props} locationInfo={getLocationInfo('layout')}>
-            {[
-              // index route component
-              Index && (
-                <Index key="/" path="/" locationInfo={getLocationInfo('index')} />
-              ),
-              // normal route components
-              ...children.map(this.renderRouteComponent(props)),
-              // default route components
-              Default && (
-                <Default key="default" default locationInfo={getLocationInfo('default')} />
-              ),
-            ]
-              .filter(exist => !!exist)
-            }
-          </Layout>
-        )}
-      </Route>
+      <Layout {...elementSlots} {...props} locationInfo={getLocationInfo('layout')}>
+        {[
+          // index route component
+          Index && (
+            <Index key="/" path="/" locationInfo={getLocationInfo('index')} />
+          ),
+          // normal route components
+          ...children.map(this.renderRoute),
+          // default route components
+          Default && (
+            <Default key="default" default locationInfo={getLocationInfo('default')} />
+          ),
+        ]
+          .filter(exist => !!exist)
+        }
+      </Layout>
     )
   }
+
+  private renderRoute = (routeNode: RouteNode) => (
+    <Route key={routeNode.routePath} path={routeNode.routePath}>
+      {props => this.renderRouteComponent(routeNode, props)}
+    </Route>
+  )
 
   render () {
     const { wrapperAttributes, ...restProps } = this.props
@@ -51,7 +53,7 @@ export default class Roundation extends React.PureComponent<Props> {
 
     return (
       <Router {...routerProps}>
-        {this.renderRouteComponent(this.routeNodeTree)}
+        {this.renderRoute(this.routeNodeTree)}
       </Router>
     )
   }
