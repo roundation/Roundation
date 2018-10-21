@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Router, RouterProps } from '@reach/router'
+import { Router, RouterProps, RouteComponentProps } from '@reach/router'
+import Route from './Route'
 import objectMap from '../utils/object-map'
 import bootstrap from '../core/bootstrap'
 import { RouteNode } from '../types'
@@ -13,30 +14,34 @@ export default class Roundation extends React.PureComponent<Props> {
   private routeNodeTree = bootstrap()
   private setCommandContext = setupLocationWorkspace(this.routeNodeTree)
 
-  private renderRouteComponent = (routeNode: RouteNode) => {
+  private renderRouteComponent = (props: RouteComponentProps) => (routeNode: RouteNode) => {
     const { routePath, Layout, Index, Default, children, slots } = routeNode
     const getLocationInfo = this.setCommandContext(routeNode)
     const elementSlots = objectMap(slots, Component => (
-      <Component locationInfo={getLocationInfo('slot')}/>
+      <Component {...props} locationInfo={getLocationInfo('slot')} />
     ))
 
     return (
-      <Layout key={routePath} path={routePath} {...elementSlots} locationInfo={getLocationInfo('layout')}>
-        {[
-          // index route component
-          Index && (
-            <Index key="/" path="/" locationInfo={getLocationInfo('index')} />
-          ),
-          // normal route components
-          ...children.map(this.renderRouteComponent),
-          // default route components
-          Default && (
-            <Default key="default" default locationInfo={getLocationInfo('default')} />
-          ),
-        ]
-          .filter(exist => !!exist)
-        }
-      </Layout>
+      <Route key={routePath} path={routePath}>
+        {(props) => (
+          <Layout {...elementSlots} {...props} locationInfo={getLocationInfo('layout')}>
+            {[
+              // index route component
+              Index && (
+                <Index key="/" path="/" locationInfo={getLocationInfo('index')} />
+              ),
+              // normal route components
+              ...children.map(this.renderRouteComponent(props)),
+              // default route components
+              Default && (
+                <Default key="default" default locationInfo={getLocationInfo('default')} />
+              ),
+            ]
+              .filter(exist => !!exist)
+            }
+          </Layout>
+        )}
+      </Route>
     )
   }
 

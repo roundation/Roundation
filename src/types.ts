@@ -18,6 +18,7 @@ export interface RouteBaseInfo {
   manifest: Manifest
 }
 
+export { RouteComponentProps }
 export interface ComponentProps extends RouteComponentProps {
   locationInfo: LocationInfo
 }
