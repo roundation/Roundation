@@ -2,13 +2,13 @@ import * as React from 'react'
 import { RouteComponentProps, ComponentProps } from '../types'
 
 export interface Props extends RouteComponentProps {
-  children: (componentProps: RouteComponentProps) => React.ReactElement<ComponentProps>
+  componentRender: (componentProps: RouteComponentProps) => React.ReactElement<ComponentProps>
 }
 
 export const Route: React.SFC<Props> = (props: Props) => {
-  const { children, ...restProps } = props
+  const { componentRender, ...restProps } = props
 
-  return children(restProps)
+  return componentRender(restProps)
 }
 
 export default Route
