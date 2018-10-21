@@ -1,6 +1,8 @@
 import { RouteComponentProps } from '@reach/router'
 import { LocationInfo } from './core/setupLocationWorkspace'
 
+export { LocationInfo }
+
 export interface Manifest {
   name: string
   icon: string
