@@ -38,23 +38,21 @@ export default class Roundation extends React.PureComponent<Props> {
   }
 
   private renderIndexRoute = (Index: ComponentClass, locationInfo: LocationInfo) => (
-    <Route key="/" path="/"
-      componentRender={props => <Index locationInfo={locationInfo} {...props} />}
-    />
+    <Route key="/" path="/">
+      {props => <Index locationInfo={locationInfo} {...props} />}
+    </Route>
   )
 
   private renderDefaultRoute = (Default: ComponentClass, locationInfo: LocationInfo) => (
-    <Route key="default" default
-      componentRender={props => <Default locationInfo={locationInfo} {...props} />}
-    />
+    <Route key="default" default>
+      {props => <Default locationInfo={locationInfo} {...props} />}
+    </Route>
   )
 
   private renderRoute = (routeNode: RouteNode) => (
-    <Route
-      key={routeNode.routePath}
-      path={routeNode.routePath}
-      componentRender={props => this.renderRouteComponent(routeNode, props)}
-    />
+    <Route key={routeNode.routePath} path={routeNode.routePath}>
+      {props => this.renderRouteComponent(routeNode, props)}
+    </Route>
   )
 
   render () {
