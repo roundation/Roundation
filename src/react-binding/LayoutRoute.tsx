@@ -18,7 +18,7 @@ export const LayoutRoute: React.SFC<Props> = (props: Props) => {
   ))
 
   return (
-    <Component {...restProps} slots={elementSlots}>{children}</Component>
+    <Component {...restProps} slots={elementSlots }>{children}</Component>
   )
 }
 

@@ -23,10 +23,9 @@ export interface RouteBaseInfo {
 export { RouteComponentProps }
 
 export type Slots<S extends string> = { [key in S]: JSX.Element }
-export interface ComponentProps<S extends string = ''> extends RouteComponentProps {
-  slots?: Slots<S>
-  locationInfo: LocationInfo
-}
+export type ComponentProps<S extends string = ''> =
+  RouteComponentProps
+  & (S extends '' ? { slots?: any, locationInfo: LocationInfo } : { slots: Slots<S>, locationInfo: LocationInfo })
 
 export type ComponentClass = React.ComponentClass<ComponentProps, any> | React.StatelessComponent<ComponentProps> & LoadableExport.LoadableComponent
 
