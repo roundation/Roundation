@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { Router, RouterProps, RouteComponentProps } from '@reach/router'
-import Route from './Route'
-import objectMap from '../utils/object-map'
+import { Router, RouterProps } from '@reach/router'
+import LayoutRoute from './LayoutRoute'
 import bootstrap from '../core/bootstrap'
-import { RouteNode, LocationInfo, ComponentClass } from '../types'
+import { RouteNode } from '../types'
 import setupLocationWorkspace from '../core/setupLocationWorkspace'
 
 export interface Props extends RouterProps {
@@ -14,46 +13,36 @@ export default class Roundation extends React.PureComponent<Props> {
   private routeNodeTree = bootstrap()
   private setCommandContext = setupLocationWorkspace(this.routeNodeTree)
 
-  private renderRouteComponent = (routeNode: RouteNode, props: RouteComponentProps) => {
-    const { Layout, Index, Default, children, slots } = routeNode
+  private renderRouteComponent = (routeNode: RouteNode) => {
+    const { routePath, Layout, Index, Default, children, slots } = routeNode
     const getLocationInfo = this.setCommandContext(routeNode)
-    const elementSlots = objectMap(slots, Component => (
-      <Component {...props} locationInfo={getLocationInfo('slot')} />
-    ))
 
     return (
-      <Layout {...elementSlots} {...props} locationInfo={getLocationInfo('layout')}>
+      <LayoutRoute
+        key={routePath}
+        Component={Layout}
+        path={routePath}
+        locationInfo={getLocationInfo('layout')}
+        slots={slots}
+        slotsLocationInfo={getLocationInfo('slot')}
+      >
         {[
           // index route component
-          Index && this.renderIndexRoute(Index, getLocationInfo('index')),
+          Index && (
+            <Index key="/" path="/" locationInfo={getLocationInfo('index')} />
+          ),
           // normal route components
-          ...children.map(this.renderRoute),
+          ...children.map(this.renderRouteComponent),
           // default route components
-          Default && this.renderDefaultRoute(Default, getLocationInfo('default'))
+          Default && (
+            <Default key="default" default locationInfo={getLocationInfo('default')} />
+          ),
         ]
           .filter(exist => !!exist)
         }
-      </Layout>
+      </LayoutRoute>
     )
   }
-
-  private renderIndexRoute = (Index: ComponentClass, locationInfo: LocationInfo) => (
-    <Route key="/" path="/">
-      {props => <Index locationInfo={locationInfo} {...props} />}
-    </Route>
-  )
-
-  private renderDefaultRoute = (Default: ComponentClass, locationInfo: LocationInfo) => (
-    <Route key="default" default>
-      {props => <Default locationInfo={locationInfo} {...props} />}
-    </Route>
-  )
-
-  private renderRoute = (routeNode: RouteNode) => (
-    <Route key={routeNode.routePath} path={routeNode.routePath}>
-      {props => this.renderRouteComponent(routeNode, props)}
-    </Route>
-  )
 
   render () {
     const { wrapperAttributes, ...restProps } = this.props
@@ -61,7 +50,7 @@ export default class Roundation extends React.PureComponent<Props> {
 
     return (
       <Router {...routerProps}>
-        {this.renderRoute(this.routeNodeTree)}
+        {this.renderRouteComponent(this.routeNodeTree)}
       </Router>
     )
   }
