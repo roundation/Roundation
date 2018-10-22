@@ -28,7 +28,9 @@ export type ComponentProps<S extends string | never = never> =
   RouteComponentProps
   & ([S] extends [never] ? { slots?: any, locationInfo: LocationInfo } : { slots: Slots<S>, locationInfo: LocationInfo })
 
-export type ComponentClass = React.ComponentClass<ComponentProps, any> | React.StatelessComponent<ComponentProps> & LoadableExport.LoadableComponent
+export type ComponentClass = React.ComponentClass<ComponentProps, any>
+  | React.StatelessComponent<ComponentProps>
+  & LoadableExport.LoadableComponent
 
 export interface ComponentResolveThunkCollection {
   [key: string]: () => ComponentClass
