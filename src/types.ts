@@ -21,8 +21,10 @@ export interface RouteBaseInfo {
 }
 
 export { RouteComponentProps }
-export interface ComponentProps extends RouteComponentProps {
-  slots?: Slots
+
+export type Slots<S extends string> = { [key in S]: JSX.Element }
+export interface ComponentProps<S extends string = ''> extends RouteComponentProps {
+  slots?: Slots<S>
   locationInfo: LocationInfo
 }
 
@@ -31,8 +33,6 @@ export type ComponentClass = React.ComponentClass<ComponentProps, any> | React.S
 export interface ComponentResolveThunkCollection {
   [key: string]: () => ComponentClass
 }
-
-export type Slots = { [key: string]: JSX.Element }
 
 export interface RouteInfo extends RouteBaseInfo {
   routePaths: string[]
