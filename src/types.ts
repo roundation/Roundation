@@ -26,9 +26,9 @@ export type Slots<S extends string> = { [key in S]: JSX.Element }
 
 export type ComponentProps<S extends string | never = never> =
   RouteComponentProps
-  & ([S] extends [never] ? { slots?: any, locationInfo: LocationInfo } : { slots: Slots<S>, locationInfo: LocationInfo })
+  & ([S] extends [never] ? { locationInfo: LocationInfo } : { slots: Slots<S>, locationInfo: LocationInfo })
 
-export type ComponentClass = React.ComponentClass<ComponentProps, any>
+export type ComponentClass<S extends string | never = never> = React.ComponentClass<ComponentProps<S>, any>
   | React.StatelessComponent<ComponentProps>
   & LoadableExport.LoadableComponent
 
@@ -39,7 +39,7 @@ export interface ComponentResolveThunkCollection {
 export interface RouteInfo extends RouteBaseInfo {
   routePaths: string[]
   directoryPath: string
-  resolveToLayout: () => ComponentClass
+  resolveToLayout: () => ComponentClass<string> | ComponentClass
   resolveToIndexRoute?: () => ComponentClass
   resolveToDefaultRoute?: () => ComponentClass
   slots: ComponentResolveThunkCollection
@@ -58,7 +58,7 @@ export interface RouteNode extends RouteBaseInfo {
   index: number,
   isConcatenated: boolean
   children: RouteNode[]
-  Layout: ComponentClass
+  Layout: ComponentClass<string> | ComponentClass
   Index?: ComponentClass
   Default?: ComponentClass
   slots: ComponentResolvedCollection
