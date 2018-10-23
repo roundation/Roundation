@@ -12,7 +12,7 @@ export interface Props extends RouteComponentProps {
 }
 
 function withoutSlots (Component: ComponentClass<string> | ComponentClass, slots: ComponentResolvedCollection): Component is ComponentClass {
-  return objectIsEmpty(Component)
+  return objectIsEmpty(slots)
 }
 
 export const LayoutRoute: React.SFC<Props> = (props: Props) => {
