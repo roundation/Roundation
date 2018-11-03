@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "@types/react": "^16.4.18",
-    "@types/react-loadable": "^5.4.1",
     "@types/webpack-env": "^1.13.6",
     "tslint": "^5.11.0",
     "typescript": "^3.1.6"
@@ -21,6 +20,7 @@
   "dependencies": {
     "@reach/router": "^1.2.1",
     "@types/reach__router": "^1.2.1",
+    "@types/react-loadable": "^5.4.1",
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
