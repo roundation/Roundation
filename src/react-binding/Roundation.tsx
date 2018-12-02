@@ -14,12 +14,12 @@ export default class Roundation extends React.PureComponent<Props> {
   private setCommandContext = setupLocationWorkspace(this.routeNodeTree)
 
   private renderRouteComponent = (routeNode: RouteNode) => {
-    const { routePath, Layout, Index, Default, children, slots } = routeNode
+    const { routePath, routeFullPath, Layout, Index, Default, children, slots } = routeNode
     const getLocationInfo = this.setCommandContext(routeNode)
 
     return (
       <LayoutRoute
-        key={routePath}
+        key={routeFullPath}
         Component={Layout}
         path={routePath}
         locationInfo={getLocationInfo('layout')}
