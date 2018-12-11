@@ -29,7 +29,7 @@ const buildRouteInfoMap = () => {
       const fileName = fileNameParts.reverse().join('.')
       // default name is same as the last folder name, or 'RoundationRouterEntry' to root folder
       const [folderName] = pathChunks.length > 1 ? pathChunks.slice(-2) : ['Roundation Root']
-      const defaultName = folderName.replace(/^\^/, '').replace(indexRegexp, '')
+      const defaultName = folderName.replace(/^-/, '').replace(indexRegexp, '')
       const defaultIcon = ''
       const defaultPermissions: string[] = []
       // root route has key '/'
@@ -60,7 +60,7 @@ const buildRouteInfoMap = () => {
           case 'layout':
             routeInfo.resolveToLayout = () => asyncComponentResolve(filePath)
             break
-          case '^layout': {
+          case '-layout': {
             routeInfo.resolveToLayout = () => syncComponentResolve(filePath)
             break
           }
@@ -68,7 +68,7 @@ const buildRouteInfoMap = () => {
             routeInfo.resolveToIndexRoute = () => asyncComponentResolve(filePath)
             break
           }
-          case '^index': {
+          case '-index': {
             routeInfo.resolveToIndexRoute = () => syncComponentResolve(filePath)
             break
           }
@@ -76,12 +76,12 @@ const buildRouteInfoMap = () => {
             routeInfo.resolveToDefaultRoute = () => asyncComponentResolve(filePath)
             break
           }
-          case '^default': {
+          case '-default': {
             routeInfo.resolveToDefaultRoute = () => syncComponentResolve(filePath)
             break
           }
           default: {
-            if (fileName[0] === '^') {
+            if (fileName[0] === '-') {
               routeInfo.slots[fileName.slice(1)] = () => syncComponentResolve(filePath)
             } else {
               routeInfo.slots[fileName] = () => asyncComponentResolve(filePath)
