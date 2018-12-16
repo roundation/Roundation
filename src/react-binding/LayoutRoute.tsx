@@ -20,7 +20,10 @@ export const LayoutRoute: React.SFC<Props> = (props: Props) => {
 
   if (withoutSlots(Component, slots)) {
     return (
-      <Component {...restProps} locationInfo={locationInfo}>{children}</Component>
+      <Component
+        {...restProps}
+        locationInfo={locationInfo}
+      >{children}</Component>
     )
   }
 
@@ -29,7 +32,13 @@ export const LayoutRoute: React.SFC<Props> = (props: Props) => {
   ))
 
   return (
-    <Component {...restProps} slots={elementSlots} locationInfo={locationInfo}>{children}</Component>
+    <Component
+      {...restProps}
+      slots={elementSlots}
+      locationInfo={locationInfo}
+    >
+      {children}
+    </Component>
   )
 }
 
