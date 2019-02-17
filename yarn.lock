@@ -24,9 +24,9 @@
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
 
-"@types/reach__router@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@types/reach__router/-/reach__router-1.2.1.tgz#f91fe293d4c8b3047e28e6ef530897d84b108b76"
+"@types/reach__router@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@types/reach__router/-/reach__router-1.2.3.tgz#679fa6968aab0314dc4b967808a23fd11af2ccce"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
