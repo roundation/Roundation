@@ -1,17 +1,21 @@
 import * as React from 'react'
-import { Router, RouterProps } from '@reach/router'
+import { Router, RouterProps, navigate } from '@reach/router'
 import LayoutRoute from './LayoutRoute'
 import bootstrap from '../core/bootstrap'
 import { RouteNode } from '../types'
-import setupLocationWorkspace from '../core/setupLocationWorkspace'
+import setupLocationWorkspace, { NavigateFn } from '../core/setupLocationWorkspace'
 
 export interface Props extends RouterProps {
   wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>
 }
 
+const roundationNavigate: NavigateFn = (path, replace) => {
+  navigate(path, { replace })
+}
+
 export default class Roundation extends React.PureComponent<Props> {
   private routeNodeTree = bootstrap()
-  private setCommandContext = setupLocationWorkspace(this.routeNodeTree)
+  private setCommandContext = setupLocationWorkspace(this.routeNodeTree, roundationNavigate)
 
   private renderRouteComponent = (routeNode: RouteNode) => {
     const { routePath, routeFullPath, Layout, Index, Default, children, slots } = routeNode
@@ -46,7 +50,7 @@ export default class Roundation extends React.PureComponent<Props> {
 
   render () {
     const { wrapperAttributes, ...restProps } = this.props
-    const routerProps = {...restProps, ...wrapperAttributes  } as RouterProps
+    const routerProps = { ...restProps, ...wrapperAttributes } as RouterProps
 
     return (
       <Router {...routerProps}>

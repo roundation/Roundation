@@ -1,4 +1,3 @@
-import { navigate } from '@reach/router'
 import getValues from '../utils/get-values'
 import compilePath from '../utils/compile-path'
 import protectPrivateFields from '../utils/protect-private-fields'
@@ -15,7 +14,12 @@ export interface LocationCommandContext {
   list (this: LocationInfo, location: LocationListCommandType, showAllType?: boolean): LocationInfo[] | null
 }
 
+export type NavigateFn = (path: string, replace: boolean) => void
+
 export class LocationInfo implements LocationCommandContext {
+  'constructor': typeof LocationInfo
+  static navigate: NavigateFn = () => {}
+
   private readonly __rootNodeAlternative: Roundation.RouteNode
   private readonly __contextNodeAlternative: Roundation.RouteNode
   private readonly __manifest: Roundation.Manifest
@@ -58,10 +62,7 @@ export class LocationInfo implements LocationCommandContext {
   }
 
   private __navigate (replacerObj: {}, replace: boolean) {
-    return navigate(
-      compilePath(this.routeFullPath, replacerObj),
-      { replace },
-    )
+    return this.constructor.navigate(compilePath(this.routeFullPath, replacerObj), replace)
   }
 
   private __listChildrenLocationInfo (showAllType: boolean): LocationInfo[] {
@@ -173,7 +174,12 @@ export class LocationInfo implements LocationCommandContext {
   }
 }
 
-export default function setupLocationWorkspace (rootRouteNode: Roundation.RouteNode) {
+export default function setupLocationWorkspace (
+  rootRouteNode: Roundation.RouteNode,
+  navigate: NavigateFn,
+) {
+  LocationInfo.navigate = navigate
+
   return function setupCommandContext (contextNode: Roundation.RouteNode) {
     return function getLocationInfo (contextNodeType: RouteNodeTypeName) {
       return new LocationInfo(contextNode, contextNodeType, rootRouteNode)
