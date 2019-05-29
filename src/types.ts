@@ -27,7 +27,7 @@ export type Slots<S extends string> = { [key in S]: JSX.Element }
 export type Queries<Q extends string> = Record<Q, string[] | undefined>
 
 export type LayoutProps<Q extends string = never> = RouteComponentProps
-  & { queries: Queries<Q> }
+  & { queries: Queries<Q>, setQueries: (queries: Partial<Queries<Q>>) => void }
   & {
     Component: ComponentClass<string> | ComponentClass
     children: React.ReactNode
@@ -38,7 +38,7 @@ export type LayoutProps<Q extends string = never> = RouteComponentProps
 
 export type ComponentProps<S extends string = never, Q extends string = never> =
   RouteComponentProps
-  & { queries: Queries<Q> }
+  & { queries: Queries<Q>, setQueries: (queries: Partial<Queries<Q>>) => void }
   & ([S] extends [never] ? { locationInfo: LocationInfo } : { slots: Slots<S>, locationInfo: LocationInfo })
 
 export type ComponentClass<S extends string = never> = React.ComponentClass<ComponentProps<S>, any>

@@ -6,6 +6,7 @@ import bootstrap from '../core/bootstrap'
 import { RouteNode } from '../types'
 import setupLocationWorkspace, { NavigateFn } from '../core/setupLocationWorkspace'
 import mapValues from '../utils/object-map'
+import { compilePathWithQueries } from '../utils/compile-path'
 
 export interface Props extends RouterProps {
   wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>
@@ -27,6 +28,9 @@ export default class Roundation extends React.PureComponent<Props> {
       parsedQueries,
       i => i ? ([] as string[]).concat(i) : undefined,
     )
+    const setQueries = (queries: object) => {
+      navigate(compilePathWithQueries(routePath, queries))
+    }
 
     return (
       <LayoutRoute
@@ -35,19 +39,28 @@ export default class Roundation extends React.PureComponent<Props> {
         path={routePath}
         locationInfo={getLocationInfo('layout')}
         queries={queries}
+        setQueries={setQueries}
         slots={slots}
         slotsLocationInfo={getLocationInfo('slot')}
       >
         {[
           // index route component
           Index && (
-            <Index key="/" path="/" queries={queries} locationInfo={getLocationInfo('index')} />
+            <Index
+              key="/" path="/"
+              queries={queries} setQueries={setQueries}
+              locationInfo={getLocationInfo('index')}
+            />
           ),
           // normal route components
           ...children.map(child => this.renderRouteComponent(child, location)),
           // default route components
           Default && (
-            <Default key="default" default queries={queries} locationInfo={getLocationInfo('default')} />
+            <Default
+              key="default" default
+              queries={queries} setQueries={setQueries}
+              locationInfo={getLocationInfo('default')}
+            />
           ),
         ]
           .filter(exist => !!exist)
