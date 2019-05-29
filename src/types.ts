@@ -26,7 +26,7 @@ export type Slots<S extends string> = { [key in S]: JSX.Element }
 
 export type Queries<Q extends string> = Record<Q, string[] | undefined>
 
-export type LayoutProps<Q extends string | never = never> = RouteComponentProps
+export type LayoutProps<Q extends string = never> = RouteComponentProps
   & { queries: Queries<Q> }
   & {
     Component: ComponentClass<string> | ComponentClass
@@ -36,12 +36,12 @@ export type LayoutProps<Q extends string | never = never> = RouteComponentProps
     slotsLocationInfo: LocationInfo
   }
 
-export type ComponentProps<S extends string | never = never, Q extends string | never = never> =
+export type ComponentProps<S extends string = never, Q extends string = never> =
   RouteComponentProps
   & { queries: Queries<Q> }
   & ([S] extends [never] ? { locationInfo: LocationInfo } : { slots: Slots<S>, locationInfo: LocationInfo })
 
-export type ComponentClass<S extends string | never = never> = React.ComponentClass<ComponentProps<S>, any>
+export type ComponentClass<S extends string = never> = React.ComponentClass<ComponentProps<S>, any>
   | React.StatelessComponent<ComponentProps>
   & LoadableExport.LoadableComponent
 
