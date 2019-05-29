@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { Router, RouterProps, navigate } from '@reach/router'
+import { Location, Router, RouterProps, navigate, LocationContext } from '@reach/router'
+import { parse } from 'query-string'
 import LayoutRoute from './LayoutRoute'
 import bootstrap from '../core/bootstrap'
 import { RouteNode } from '../types'
 import setupLocationWorkspace, { NavigateFn } from '../core/setupLocationWorkspace'
+import mapValues from '../utils/object-map'
 
 export interface Props extends RouterProps {
   wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>
@@ -17,9 +19,14 @@ export default class Roundation extends React.PureComponent<Props> {
   private routeNodeTree = bootstrap()
   private setCommandContext = setupLocationWorkspace(this.routeNodeTree, roundationNavigate)
 
-  private renderRouteComponent = (routeNode: RouteNode) => {
+  private renderRouteComponent = (routeNode: RouteNode, location: LocationContext) => {
     const { routePath, routeFullPath, Layout, Index, Default, children, slots } = routeNode
     const getLocationInfo = this.setCommandContext(routeNode)
+    const parsedQueries = parse(location.location.search)
+    const queries = mapValues(
+      parsedQueries,
+      i => i ? ([] as string[]).concat(i) : undefined,
+    )
 
     return (
       <LayoutRoute
@@ -27,19 +34,20 @@ export default class Roundation extends React.PureComponent<Props> {
         Component={Layout}
         path={routePath}
         locationInfo={getLocationInfo('layout')}
+        queries={queries}
         slots={slots}
         slotsLocationInfo={getLocationInfo('slot')}
       >
         {[
           // index route component
           Index && (
-            <Index key="/" path="/" locationInfo={getLocationInfo('index')} />
+            <Index key="/" path="/" queries={queries} locationInfo={getLocationInfo('index')} />
           ),
           // normal route components
-          ...children.map(this.renderRouteComponent),
+          ...children.map(child => this.renderRouteComponent(child, location)),
           // default route components
           Default && (
-            <Default key="default" default locationInfo={getLocationInfo('default')} />
+            <Default key="default" default queries={queries} locationInfo={getLocationInfo('default')} />
           ),
         ]
           .filter(exist => !!exist)
@@ -53,9 +61,13 @@ export default class Roundation extends React.PureComponent<Props> {
     const routerProps = { ...restProps, ...wrapperAttributes } as RouterProps
 
     return (
-      <Router {...routerProps}>
-        {this.renderRouteComponent(this.routeNodeTree)}
-      </Router>
+      <Location>
+        {(location => (
+          <Router {...routerProps}>
+            {this.renderRouteComponent(this.routeNodeTree, location)}
+          </Router>
+        ))}
+      </Location>
     )
   }
 }

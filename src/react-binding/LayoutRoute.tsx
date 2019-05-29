@@ -1,21 +1,13 @@
 import * as React from 'react'
 import objectMap from '../utils/object-map'
 import objectIsEmpty from '../utils/object-is-empty'
-import { RouteComponentProps, LocationInfo, ComponentResolvedCollection, ComponentClass } from '../types'
-
-export interface Props extends RouteComponentProps {
-  Component: ComponentClass<string> | ComponentClass
-  children: React.ReactNode
-  locationInfo: LocationInfo
-  slots: ComponentResolvedCollection
-  slotsLocationInfo: LocationInfo
-}
+import { LayoutProps, ComponentResolvedCollection, ComponentClass } from '../types'
 
 function withoutSlots (Component: ComponentClass<string> | ComponentClass, slots: ComponentResolvedCollection): Component is ComponentClass {
   return objectIsEmpty(slots)
 }
 
-export const LayoutRoute: React.SFC<Props> = (props: Props) => {
+export const LayoutRoute: React.SFC<LayoutProps<any>> = props => {
   const { Component, children, locationInfo, slots, slotsLocationInfo, ...restProps } = props
 
   if (withoutSlots(Component, slots)) {
