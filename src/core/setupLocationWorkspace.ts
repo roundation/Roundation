@@ -10,7 +10,8 @@ export type LocationLocateCommandType = LocationInfo | '.' | '..' | '/' | undefi
 export type LocationListCommandType = LocationInfo | '.' | '..' | '/' | '~' | undefined
 export interface LocationCommandContext {
   inspect (this: LocationInfo, location: LocationInspectCommandType): LocationInfo | null
-  locate (this: LocationInfo, location: LocationLocateCommandType, replacerObj?: {}, replace?: boolean): void
+  locate (this: LocationInfo, location: LocationLocateCommandType, replacerObj?: object, replace?: boolean): void
+  locate (this: LocationInfo, location: LocationLocateCommandType, replacerObj?: object, queryObj?: object, replace?: boolean): void
   list (this: LocationInfo, location: LocationListCommandType, showAllType?: boolean): LocationInfo[] | null
 }
 
@@ -61,7 +62,7 @@ export class LocationInfo implements LocationCommandContext {
     return new LocationInfo(this.__rootNodeAlternative, 'layout')
   }
 
-  private __navigate (replacerObj: {}, replace: boolean) {
+  private __navigate (replacerObj: object, queryObj: object, replace: boolean) {
     return this.constructor.navigate(compilePath(this.routeFullPath, replacerObj), replace)
   }
 
@@ -127,23 +128,26 @@ export class LocationInfo implements LocationCommandContext {
     }
   }
 
-  locate (location?: LocationLocateCommandType, replacerObj: {} = {}, replace: boolean = false): void {
-    if (!location) return this.__navigate(replacerObj, replace)
+  locate (location?: LocationLocateCommandType, replacerObj: object = {}, replaceOrQueryObj?: boolean | object, maybeReplace?: boolean): void {
+    const queryObj = typeof replaceOrQueryObj === 'object' ? replaceOrQueryObj : {}
+    const replace = typeof replaceOrQueryObj === 'boolean' ? replaceOrQueryObj : (maybeReplace || false)
+
+    if (!location) return this.__navigate(replacerObj, queryObj, replace)
     if (typeof location !== 'string') {
-      return this. __inspectLocationInfo(location).__navigate(replacerObj, replace)
+      return this. __inspectLocationInfo(location).__navigate(replacerObj, queryObj, replace)
     }
 
     switch (location) {
       case '.':
-        return this.__navigate(replacerObj, replace)
+        return this.__navigate(replacerObj, queryObj, replace)
       case '..':{
         const parentLocation = this.__inspectParentLocationInfo()
         return parentLocation
-          ? parentLocation.__navigate(replacerObj, replace)
+          ? parentLocation.__navigate(replacerObj, queryObj, replace)
           : undefined
       }
       case '/':
-        return this.__inspectRootLocationInfo().__navigate(replacerObj, replace)
+        return this.__inspectRootLocationInfo().__navigate(replacerObj, queryObj, replace)
       default: {
         throw new Error('Invalid locate location!')
       }

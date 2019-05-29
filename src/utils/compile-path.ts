@@ -1,6 +1,7 @@
 import getEntries from './get-entries'
+import { stringify } from 'query-string'
 
-export default function compilePath (path: string, params: {}): string {
+export default function compilePath (path: string, params: {}, query: {} = {}): string {
   return getEntries(params).reduce(
     (parsingPath, [key, value]) => {
       const keyReg = new RegExp(`/(:${key})(/|$)`)
@@ -13,5 +14,5 @@ export default function compilePath (path: string, params: {}): string {
       return parsedPath
     },
     path
-  )
+  ) + stringify(query)
 }
