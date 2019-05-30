@@ -28,8 +28,11 @@ export default class Roundation extends React.PureComponent<Props> {
       parsedQueries,
       i => i ? ([] as string[]).concat(i) : undefined,
     )
-    const setQueries = (queries: object) => {
-      navigate(compilePathWithQueries(routePath, queries))
+    const setQueries = (partialQueries: object, disablePartial: boolean = false) => {
+      navigate(compilePathWithQueries(
+        routePath,
+        disablePartial ? partialQueries : { ...parsedQueries, ...partialQueries },
+      ))
     }
 
     return (
