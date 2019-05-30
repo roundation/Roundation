@@ -33,10 +33,7 @@ export default class Roundation extends React.PureComponent<Props> {
       const newQueries = disablePartial
         ? partialQueries
         : { ...queries, ...partialQueries }
-      navigate(compilePathWithQueries(
-        routePath,
-        cleanObject(newQueries),
-      ))
+      navigate(compilePathWithQueries('', cleanObject(newQueries)))
     }
 
     return (
