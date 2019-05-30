@@ -1,17 +1,13 @@
 import getKeys from './get-keys'
 
-type StripNullable<O extends object> = {
-  [k in keyof O]-?: O[k]
-}
-
-function cleanObject<O extends object> (o: O): StripNullable<O> {
+function cleanObject<O extends object> (o: O): object {
   const copy = { ...o }
   getKeys(copy).forEach(key => {
-    if (copy[key] === null || copy[key] === undefined) {
+    if (copy[key] === null || copy[key] === undefined || copy[key] === '') {
       delete copy[key]
     }
   });
-  return copy as any
+  return copy
 }
 
 export default cleanObject
