@@ -7,6 +7,7 @@ import { RouteNode } from '../types'
 import setupLocationWorkspace, { NavigateFn } from '../core/setupLocationWorkspace'
 import mapValues from '../utils/object-map'
 import { compilePathWithQueries } from '../utils/compile-path'
+import cleanObject from '../utils/clean-object'
 
 export interface Props extends RouterProps {
   wrapperAttributes?: React.HTMLAttributes<HTMLDivElement>
@@ -29,9 +30,12 @@ export default class Roundation extends React.PureComponent<Props> {
       i => i ? ([] as string[]).concat(i) : undefined,
     )
     const setQueries = (partialQueries: object, disablePartial: boolean = false) => {
+      const queries = disablePartial
+        ? partialQueries
+        : { ...parsedQueries, ...partialQueries }
       navigate(compilePathWithQueries(
         routePath,
-        disablePartial ? partialQueries : { ...parsedQueries, ...partialQueries },
+        cleanObject(queries),
       ))
     }
 
