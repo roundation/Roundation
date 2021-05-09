@@ -1,12 +1,12 @@
 import * as React from 'react'
 import objectMap from '../utils/object-map'
 import objectIsEmpty from '../utils/object-is-empty'
-import { LayoutProps, ComponentResolvedCollection, ComponentClass } from '../types'
+import { LayoutProps, ComponentResolvedCollection, ComponentType } from '../types'
 
 function withoutSlots (
-  Component: ComponentClass<string> | ComponentClass,
+  Component: ComponentType<string> | ComponentType,
   slots: ComponentResolvedCollection,
-): Component is ComponentClass {
+): Component is ComponentType {
   return objectIsEmpty(slots)
 }
 

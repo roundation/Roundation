@@ -24,6 +24,8 @@ export interface LocationCommandContext {
 export type NavigateFn = (path: string, replace: boolean) => void
 
 export class LocationInfo implements LocationCommandContext {
+  // @ts-expect-error
+  'constructor': typeof LocationInfo
   static navigate: NavigateFn = () => {
     // pass
   }

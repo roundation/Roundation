@@ -61,7 +61,8 @@ const buildRouteInfoMap = () => {
             routeInfo.resolveToLayout = () => asyncComponentResolve(filePath)
             break
           case '-layout': {
-            routeInfo.resolveToLayout = () => syncComponentResolve(filePath)
+            routeInfo.resolveToLayout = () => syncComponentResolve(filePath) as
+              Roundation.ComponentType<string> | Roundation.ComponentType
             break
           }
           case 'index': {
@@ -69,7 +70,8 @@ const buildRouteInfoMap = () => {
             break
           }
           case '-index': {
-            routeInfo.resolveToIndexRoute = () => syncComponentResolve(filePath)
+            routeInfo.resolveToIndexRoute = () => syncComponentResolve(filePath) as
+              Roundation.ComponentType
             break
           }
           case 'default': {
@@ -77,12 +79,14 @@ const buildRouteInfoMap = () => {
             break
           }
           case '-default': {
-            routeInfo.resolveToDefaultRoute = () => syncComponentResolve(filePath)
+            routeInfo.resolveToDefaultRoute = () => syncComponentResolve(filePath) as
+              Roundation.ComponentType
             break
           }
           default: {
             if (fileName[0] === '-') {
-              routeInfo.slots[fileName.slice(1)] = () => syncComponentResolve(filePath)
+              routeInfo.slots[fileName.slice(1)] = () => syncComponentResolve(filePath) as
+                Roundation.ComponentType
             } else {
               routeInfo.slots[fileName] = () => asyncComponentResolve(filePath)
             }
