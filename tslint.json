@@ -122,7 +122,6 @@
 			"allow-new",
 			"allow-tagged-template"
 		],
-		"no-use-before-declare": true,
 		"no-var-keyword": true,
 		"prefer-conditional-expression": true,
 		"restrict-plus-operands": true,

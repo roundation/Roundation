@@ -75,7 +75,7 @@ export default class Roundation extends React.PureComponent<Props> {
 
   render () {
     const { wrapperAttributes, ...restProps } = this.props
-    const routerProps = { ...restProps, ...wrapperAttributes } as RouterProps
+    const routerProps: RouterProps = { ...restProps, ...wrapperAttributes }
 
     return (
       <Location>

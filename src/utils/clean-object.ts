@@ -1,6 +1,6 @@
 import getKeys from './get-keys'
 
-function shouldDelete (value: any): boolean {
+function shouldDelete (value: unknown): boolean {
   return value === null || value === undefined || value === ''
     || (Array.isArray(value) && value.filter(v => !shouldDelete(v)).length === 0)
 }
@@ -11,7 +11,8 @@ function cleanObject<O extends object> (o: O): object {
     if (shouldDelete(copy[key])) {
       delete copy[key]
     }
-  });
+  })
+
   return copy
 }
 

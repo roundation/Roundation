@@ -2,11 +2,12 @@ import getEntries from './get-entries'
 
 function objectMap<O extends ArrayLike<T>, T, U> (o: O, fn: (i: T) => U): ArrayLike<U>
 function objectMap<O, T extends O[keyof O], U> (o: O, fn: (i: T) => U): { [s in keyof O]: U }
-function objectMap<O extends ArrayLike<T>, T extends O[keyof O], U> (o: O, fn: (i: T) => U): ArrayLike<U> | { [s in keyof O]: U } {
+function objectMap<O extends ArrayLike<T>, T extends O[keyof O], U> (o: O, fn: (i: T) => U)
+  : ArrayLike<U> | { [s in keyof O]: U } {
   return getEntries(o).reduce(
     (acc, [key, value]) => {
       if (key === 'length') {
-        acc['length'] = value
+        acc.length = value
 
         return acc
       }
@@ -15,7 +16,7 @@ function objectMap<O extends ArrayLike<T>, T extends O[keyof O], U> (o: O, fn: (
 
       return acc
     },
-    o.hasOwnProperty ? {} : Object.create(null),
+    Object.create(null),
   )
 }
 

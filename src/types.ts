@@ -29,11 +29,11 @@ export type Queries<Q extends string> = Record<Q, string[] | undefined>
 export type LayoutProps<Q extends string = never> = RouteComponentProps
   & { queries: Queries<Q>, setQueries: (queries: Partial<Queries<Q>>, disablePartial?: boolean) => void }
   & {
-    Component: ComponentClass<string> | ComponentClass
-    children: React.ReactNode
-    locationInfo: LocationInfo
-    slots: ComponentResolvedCollection
-    slotsLocationInfo: LocationInfo
+    Component: ComponentClass<string> | ComponentClass,
+    children: React.ReactNode,
+    locationInfo: LocationInfo,
+    slots: ComponentResolvedCollection,
+    slotsLocationInfo: LocationInfo,
   }
 
 export type ComponentProps<S extends string = never, Q extends string = never> =
