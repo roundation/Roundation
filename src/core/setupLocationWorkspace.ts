@@ -11,15 +11,22 @@ export type LocationListCommandType = LocationInfo | '.' | '..' | '/' | '~' | un
 export interface LocationCommandContext {
   inspect (this: LocationInfo, location: LocationInspectCommandType): LocationInfo | null
   locate (this: LocationInfo, location: LocationLocateCommandType, replacerObj?: object, replace?: boolean): void
-  locate (this: LocationInfo, location: LocationLocateCommandType, replacerObj?: object, queryObj?: object, replace?: boolean): void
+  locate (
+    this: LocationInfo,
+    location: LocationLocateCommandType,
+    replacerObj?: object,
+    queryObj?: object,
+    replace?: boolean,
+  ): void
   list (this: LocationInfo, location: LocationListCommandType, showAllType?: boolean): LocationInfo[] | null
 }
 
 export type NavigateFn = (path: string, replace: boolean) => void
 
 export class LocationInfo implements LocationCommandContext {
-  'constructor': typeof LocationInfo
-  static navigate: NavigateFn = () => {}
+  static navigate: NavigateFn = () => {
+    // pass
+  }
 
   private readonly __rootNodeAlternative: Roundation.RouteNode
   private readonly __contextNodeAlternative: Roundation.RouteNode
@@ -34,7 +41,7 @@ export class LocationInfo implements LocationCommandContext {
   constructor (
     contextNode: Roundation.RouteNode,
     contextNodeType: RouteNodeTypeName,
-    rootNode: Roundation.RouteNode = contextNode
+    rootNode: Roundation.RouteNode = contextNode,
   ) {
     this.__rootNodeAlternative = rootNode
     this.__contextNodeAlternative = contextNode
@@ -128,7 +135,12 @@ export class LocationInfo implements LocationCommandContext {
     }
   }
 
-  locate (location?: LocationLocateCommandType, replacerObj: object = {}, replaceOrQueryObj?: boolean | object, maybeReplace?: boolean): void {
+  locate (
+    location?: LocationLocateCommandType,
+    replacerObj: object = {},
+    replaceOrQueryObj?: boolean | object,
+    maybeReplace?: boolean,
+  ): void {
     const queryObj = typeof replaceOrQueryObj === 'object' ? replaceOrQueryObj : {}
     const replace = typeof replaceOrQueryObj === 'boolean' ? replaceOrQueryObj : (maybeReplace || false)
 
@@ -140,8 +152,9 @@ export class LocationInfo implements LocationCommandContext {
     switch (location) {
       case '.':
         return this.__navigate(replacerObj, queryObj, replace)
-      case '..':{
+      case '..': {
         const parentLocation = this.__inspectParentLocationInfo()
+
         return parentLocation
           ? parentLocation.__navigate(replacerObj, queryObj, replace)
           : undefined
@@ -165,6 +178,7 @@ export class LocationInfo implements LocationCommandContext {
         return this.__listChildrenLocationInfo(showAllType)
       case '..': {
         const parentLocation = this.__inspectParentLocationInfo()
+
         return parentLocation ? parentLocation.__listChildrenLocationInfo(showAllType) : []
       }
       case '/':
