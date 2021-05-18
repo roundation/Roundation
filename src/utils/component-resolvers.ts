@@ -1,8 +1,10 @@
-import * as Loadable from 'react-loadable'
+import loadable from '@react-loadable/revised'
 import * as Roundation from '../types'
 
-export function asyncComponentResolve (filePath: string): Roundation.ComponentType & Loadable.LoadableComponent {
-  return Loadable<Roundation.ComponentProps, any>({
+type LoadableComponent = ReturnType<typeof loadable>
+
+export function asyncComponentResolve (filePath: string): Roundation.ComponentType & LoadableComponent {
+  return loadable<Roundation.ComponentProps, any>({
     loader: () => import('~src/pages' + filePath),
     loading: () => null,
   })
