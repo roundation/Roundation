@@ -1,5 +1,8 @@
 import { RouteComponentProps } from '@reach/router'
 import { LocationInfo } from './core/setupLocationWorkspace'
+import loadable from '@react-loadable/revised'
+
+export type LoadableComponent = ReturnType<typeof loadable>
 
 export { LocationInfo }
 
@@ -45,7 +48,13 @@ export type ComponentType<S extends string = never> = (
   | React.ComponentType<ComponentProps<S>>
   | React.ComponentType<ComponentProps>
 )
-  & LoadableExport.LoadableComponent
+  & LoadableComponent
+
+export type ComponentTypeWithoutSlots<S extends string = never> = (
+  | React.ComponentType<Omit<ComponentProps<S>, 'slots'>>
+  | React.ComponentType<Omit<ComponentProps, 'slots'>>
+)
+  & LoadableComponent
 
 export interface ComponentResolveThunkCollection {
   [key: string]: () => ComponentType

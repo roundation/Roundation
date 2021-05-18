@@ -1,12 +1,12 @@
 import * as React from 'react'
 import objectMap from '../utils/object-map'
 import objectIsEmpty from '../utils/object-is-empty'
-import { LayoutProps, ComponentResolvedCollection, ComponentType } from '../types'
+import { LayoutProps, ComponentResolvedCollection, ComponentType, ComponentTypeWithoutSlots } from '../types'
 
 function withoutSlots (
   Component: ComponentType<string> | ComponentType,
   slots: ComponentResolvedCollection,
-): Component is ComponentType {
+): Component is ComponentTypeWithoutSlots {
   return objectIsEmpty(slots)
 }
 
@@ -14,11 +14,10 @@ export const LayoutRoute: React.FC<LayoutProps<any>> = props => {
   const { Component, children, locationInfo, slots, slotsLocationInfo, ...restProps } = props
 
   if (withoutSlots(Component, slots)) {
+    const ComponentWithoutSlots = Component as ComponentTypeWithoutSlots
+
     return (
-      <Component
-        {...restProps}
-        locationInfo={locationInfo}
-      >{children}</Component>
+      <ComponentWithoutSlots {...restProps} locationInfo={locationInfo} >{children}</ComponentWithoutSlots>
     )
   }
 
